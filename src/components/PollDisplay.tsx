@@ -26,7 +26,7 @@ export default function PollDisplay({initialPoll} : PollDisplayProps) {
 
     const handleVote = (optionText : string) => {
         if(socketRef.current) {
-            socketRef.current.emit('vote', {pollID: poll._id,optionText});
+            socketRef.current.emit('vote', {pollId: poll._id,optionText});
         }
     }
 
