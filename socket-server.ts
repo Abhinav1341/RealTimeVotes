@@ -44,7 +44,7 @@ io.on('connection',(socket:Socket) => {
 
             const updatePoll = await pollsCollection.findOne({ _id: new ObjectId(pollId)});
 
-            io.to(pollId).emit('poll-update',updatePoll);
+            io.to(pollId).emit('poll-update', JSON.parse(JSON.stringify(updatePoll)));
             console.log(`Vote Cast for ${optionText} in poll ${pollId}. Update broadcasted.`);
         }
         catch(err){

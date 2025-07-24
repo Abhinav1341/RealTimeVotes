@@ -2,6 +2,7 @@ import clientPromise from "@/lib/mongodb"
 import { Poll } from "@/types/poll"
 import { ObjectId } from "mongodb"
 import { notFound } from "next/navigation"
+import PollDisplay from "@/components/PollDisplay"
 
 interface PollPageProps {
     params : {
@@ -9,7 +10,7 @@ interface PollPageProps {
     }
 }
 
-async function getPoll(id : string) : Promise<Poll | null> {
+async function getPoll(id : string) : Promise<Poll & {_id: string} | null> {
     try{
         if(!ObjectId.isValid(id)){
             return null;
@@ -31,29 +32,15 @@ async function getPoll(id : string) : Promise<Poll | null> {
     }
 }
 
-const PollPage =  async (props : PollPageProps) => {
-    const idx = props.params.id;
-    const poll = await getPoll(idx);
+async function PollPage({ params }: PollPageProps) {
+  const {id} = await params;
+  const poll = await getPoll(id);
     if(!poll) {
         notFound();
     }
     return (
     <main className="flex min-h-screen flex-col items-center p-24">
-      <div className="w-full max-w-2xl text-center">
-        <h1 className="text-4xl font-bold mb-2">{poll.question}</h1>
-        <p className="text-sm text-gray-500 mb-8">
-          Created on: {new Date(poll.createdAt).toLocaleDateString()}
-        </p>
-
-        <div className="space-y-4">
-          {poll.options.map((option, index) => (
-            <div key={index} className="p-4 border rounded-lg shadow-sm">
-              <p className="text-xl font-medium">{option.text}</p>
-              <p className="text-lg font-semibold mt-2 text-blue-600">{option.votes} votes</p>
-            </div>
-          ))}
-        </div>
-      </div>
+      <PollDisplay initialPoll={poll} />
     </main>
   );
 }
