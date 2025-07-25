@@ -10,7 +10,7 @@ interface PollPageProps {
     }
 }
 
-async function getPoll(id : string) : Promise<Poll & {_id: string} | null> {
+async function getPoll(id: string): Promise<Poll | null> {
     try{
         if(!ObjectId.isValid(id)){
             return null;
@@ -33,7 +33,7 @@ async function getPoll(id : string) : Promise<Poll & {_id: string} | null> {
 }
 
 async function PollPage({ params }: PollPageProps) {
-  const {id} = await params;
+  const {id} = params;
   const poll = await getPoll(id);
     if(!poll) {
         notFound();
