@@ -6,7 +6,9 @@
     "dev": "next dev --turbopack",
     "socket": "ts-node -P tsconfig.socket.json socket-server.ts",
     "build": "next build",
+    "build:socket": "tsc --project tsconfig.socket.json --outDir dist",
     "start": "next start",
+    "start:socket": "node dist/socket-server.js",
     "lint": "next lint"
   },
   "dependencies": {

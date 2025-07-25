@@ -19,7 +19,8 @@ export default function PollDisplay({initialPoll} : PollDisplayProps) {
         if(poll._id && votedPolls.includes(poll._id)) {
           setHasVoted(true);
         }
-        const socket = io('http://localhost:3001');
+        const socketUrl = process.env.NEXT_PUBLIC_SOCKET_SERVER_URL || "http://localhost:3001";
+        const socket = io(socketUrl);
         socketRef.current = socket;
         socket.emit('join-poll',poll._id);
         socket.on('poll-update', (updatePoll: Poll & {_id : string}) => {
