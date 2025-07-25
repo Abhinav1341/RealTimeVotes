@@ -2,11 +2,13 @@ import { NextResponse } from "next/server";
 import clientPromise from "@/lib/mongodb";
 import { Poll, PollOption } from "@/types/poll";
 
+type PollForInsert = Omit<Poll, '_id'>;
+
 export async function POST(request: Request) {
     try {
         const client = await clientPromise;
         const db = client.db();
-        const pollsCollection = db.collection<Poll>('polls');
+        const pollsCollection = db.collection<PollForInsert>('polls');
 
         const body = await request.json();
         const { question, options } = body;
@@ -23,7 +25,7 @@ export async function POST(request: Request) {
             }
         }
 
-        const newPoll: Omit<Poll, '_id'> = {
+        const newPoll: PollForInsert = {
             question: question.trim(),
             options: options.map((optionText: string): PollOption => ({
                 text: optionText.trim(),

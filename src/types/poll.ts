@@ -4,7 +4,7 @@ export interface PollOption {
 }
 
 export interface Poll {
-    _id?: string;
+    _id: string;
     question: string;
     options: PollOption[];
     createdAt: Date;

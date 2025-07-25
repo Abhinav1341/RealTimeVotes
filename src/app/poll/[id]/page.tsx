@@ -4,11 +4,10 @@ import { ObjectId } from "mongodb";
 import { notFound } from "next/navigation";
 import PollDisplay from "@/components/PollDisplay";
 
-interface PollPageProps {
-    params: {
-        id: string;
-    }
-}
+type PollPageProps = {
+    params: { id: string };
+    searchParams: { [key: string]: string | string[] | undefined };
+};
 
 async function getPoll(id: string): Promise<Poll | null> {
     try {
@@ -23,6 +22,7 @@ async function getPoll(id: string): Promise<Poll | null> {
         const poll = await pollsCollection.findOne({ _id: new ObjectId(id) });
 
         if (!poll) return null;
+
         return JSON.parse(JSON.stringify(poll));
     }
     catch (err) {
@@ -38,6 +38,7 @@ export default async function PollPage({ params }: PollPageProps) {
     if (!poll) {
         notFound();
     }
+    
     return (
     <main className="flex min-h-screen flex-col items-center p-24">
       <PollDisplay initialPoll={poll} />
