@@ -23,7 +23,6 @@ async function getPoll(id: string): Promise<Poll | null> {
         const poll = await pollsCollection.findOne({ _id: new ObjectId(id) });
 
         if (!poll) return null;
-
         return JSON.parse(JSON.stringify(poll));
     }
     catch (err) {
