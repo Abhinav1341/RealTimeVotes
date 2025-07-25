@@ -4,9 +4,8 @@ import { ObjectId } from "mongodb";
 import { notFound } from "next/navigation";
 import PollDisplay from "@/components/PollDisplay";
 
-type PollPageProps = {
+type Props = {
     params: { id: string };
-    searchParams: { [key: string]: string | string[] | undefined };
 };
 
 async function getPoll(id: string): Promise<Poll | null> {
@@ -31,14 +30,14 @@ async function getPoll(id: string): Promise<Poll | null> {
     }
 }
 
-export default async function PollPage({ params }: PollPageProps) {
+export default async function PollPage({ params }: Props) {
   const id = params.id;
   const poll = await getPoll(id);
 
     if (!poll) {
         notFound();
     }
-    
+
     return (
     <main className="flex min-h-screen flex-col items-center p-24">
       <PollDisplay initialPoll={poll} />
