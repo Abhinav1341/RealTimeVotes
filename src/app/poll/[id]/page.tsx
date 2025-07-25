@@ -1,18 +1,18 @@
-import clientPromise from "@/lib/mongodb"
-import { Poll } from "@/types/poll"
-import { ObjectId } from "mongodb"
-import { notFound } from "next/navigation"
-import PollDisplay from "@/components/PollDisplay"
+import clientPromise from "@/lib/mongodb";
+import { Poll } from "@/types/poll";
+import { ObjectId } from "mongodb";
+import { notFound } from "next/navigation";
+import PollDisplay from "@/components/PollDisplay";
 
 interface PollPageProps {
-    params : {
+    params: {
         id: string;
     }
 }
 
 async function getPoll(id: string): Promise<Poll | null> {
-    try{
-        if(!ObjectId.isValid(id)){
+    try {
+        if (!ObjectId.isValid(id)) {
             return null;
         }
         
@@ -20,22 +20,23 @@ async function getPoll(id: string): Promise<Poll | null> {
         const db = client.db();
         const pollsCollection = db.collection('polls');
 
-        const poll = await pollsCollection.findOne({_id: new ObjectId(id)});
+        const poll = await pollsCollection.findOne({ _id: new ObjectId(id) });
 
-        if(!poll) return null;
+        if (!poll) return null;
 
         return JSON.parse(JSON.stringify(poll));
     }
-    catch(err){
-        console.log("Databse Error in Fetching Poll :", err);
+    catch (err) {
+        console.log("Database Error in Fetching Poll :", err);
         return null;
     }
 }
 
-async function PollPage({ params }: PollPageProps) {
-  const {id} = params;
+export default async function PollPage({ params }: PollPageProps) {
+  const id = params.id;
   const poll = await getPoll(id);
-    if(!poll) {
+
+    if (!poll) {
         notFound();
     }
     return (
@@ -44,5 +45,3 @@ async function PollPage({ params }: PollPageProps) {
     </main>
   );
 }
-
-export default PollPage
