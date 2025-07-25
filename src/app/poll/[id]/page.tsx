@@ -4,10 +4,6 @@ import { ObjectId } from "mongodb";
 import { notFound } from "next/navigation";
 import PollDisplay from "@/components/PollDisplay";
 
-type PageProps = {
-  params: { id: string };
-};
-
 async function getPoll(id: string): Promise<Poll | null> {
     try {
         if (!ObjectId.isValid(id)) {
@@ -30,7 +26,7 @@ async function getPoll(id: string): Promise<Poll | null> {
     }
 }
 
-export default async function PollPage({ params }: PageProps) {
+export default async function PollPage({ params }: { params: { id: string } }) {
   const id = params.id;
   const poll = await getPoll(id);
 
