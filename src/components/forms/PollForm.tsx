@@ -47,8 +47,12 @@ const PollForm = () => {
             const data = await res.json();
             router.push(`/poll/${data.pollId}`);
         }
-        catch(error: any){
-            setError(error.message);
+        catch(error){
+            if (error instanceof Error) {
+                setError(error.message);
+            } else {
+              setError("An unexpected error occurred.");
+            }
         }
         finally {
             setIsLoading(false);

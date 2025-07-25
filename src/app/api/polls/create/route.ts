@@ -17,7 +17,7 @@ export async function POST(request: Request) {
         if(!options || !Array.isArray(options) || options.length < 2){
             return NextResponse.json({message : "At least two options are required."})
         }
-        for(let op of options){
+        for(const op of options){
             if(typeof op !== 'string' || op.trim().length === 0){
                 return NextResponse.json({message : "Options can't be left empty."})
             }
