@@ -9,7 +9,6 @@ async function getPoll(id: string): Promise<Poll | null> {
         if (!ObjectId.isValid(id)) {
             return null;
         }
-        
         const client = await clientPromise;
         const db = client.db();
         const pollsCollection = db.collection('polls');
@@ -26,8 +25,8 @@ async function getPoll(id: string): Promise<Poll | null> {
     }
 }
 
-export default async function PollPage({ params }: { params: { id: string } }) {
-  const id = params.id;
+export default async function PollPage({ params }: { params: {id: string} }) {
+  const {id} = params;
   const poll = await getPoll(id);
 
     if (!poll) {
