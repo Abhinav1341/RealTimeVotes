@@ -61,5 +61,5 @@ io.on('connection',(socket:Socket) => {
 const PORT = process.env.PORT || 3001;
 
 server.listen(Number(PORT), '0.0.0.0', () => {
-    console.log(`Socket.IO server running on: http://localhost:${PORT}`);
+    console.log(`Socket server is alive and listening on port: ${PORT}`);
 })
