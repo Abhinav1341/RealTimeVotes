@@ -25,11 +25,15 @@ async function getPoll(id: string): Promise<Poll | null> {
     }
 }
 
-export default async function PollPage({ params }: { params: {id: string} }) {
-  const {id} = params;
+interface PollPageProps {
+  params: Promise<{ id: string }>;
+}
+
+export default async function PollPage({ params }: PollPageProps) {
+  const { id } = await params;
   const poll = await getPoll(id);
 
-    if (!poll) {
+    if(!poll){
         notFound();
     }
 
